@@ -13,17 +13,16 @@ async function testSessionManagement() {
     const testUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
     const testIpAddress = "192.168.1.100";
     
-    const session = await createSession(testEmployeeId, testUserAgent, testIpAddress);
+    const session = await createSession(testEmployeeId, true);
     console.log("✅ Session created:", {
       id: session.id,
       sessionToken: session.sessionToken.substring(0, 16) + "...",
-      deviceId: session.deviceId.substring(0, 16) + "...",
       expiresAt: session.expiresAt
     });
     
     // 2. ทดสอบการ validate session
     console.log("\n2. Testing Session Validation...");
-    const sessionData = await validateSession(session.sessionToken, testUserAgent, testIpAddress);
+    const sessionData = await validateSession(session.sessionToken);
     
     if (sessionData) {
       console.log("✅ Session validated successfully:", {
@@ -48,7 +47,7 @@ async function testSessionManagement() {
     
     // 6. ทดสอบการ validate session ที่ถูกลบแล้ว
     console.log("\n6. Testing Validation of Deleted Session...");
-    const deletedSessionData = await validateSession(session.sessionToken, testUserAgent, testIpAddress);
+    const deletedSessionData = await validateSession(session.sessionToken);
     
     if (!deletedSessionData) {
       console.log("✅ Deleted session correctly rejected");
@@ -58,7 +57,7 @@ async function testSessionManagement() {
     
     // 7. ทดสอบการสร้าง session ใหม่ (ควรลบ session เก่าทั้งหมด)
     console.log("\n7. Testing New Session Creation (should clear old sessions)...");
-    const newSession = await createSession(testEmployeeId, testUserAgent, testIpAddress);
+    const newSession = await createSession(testEmployeeId, true);
     console.log("✅ New session created:", {
       id: newSession.id,
       sessionToken: newSession.sessionToken.substring(0, 16) + "..."

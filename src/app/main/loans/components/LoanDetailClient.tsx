@@ -16,6 +16,7 @@ type Loan = {
   id: number;
   status: "OPEN" | "USE" | "CLOSED" | "CANCELLED" | "OVERDUE";
   returnedDate: string | null;
+  dueDate: string | null;
   note: string;
   borrower: { id: number; name: string; employeeID: string } | null;
   borrowerPosition?: string | null;
@@ -365,6 +366,7 @@ export default function LoanDetailClient({
         loanData={{
           id: loan.id,
           borrowerId: loan.borrower?.id || 0,
+          dueDate: loan.dueDate,
           note: loan.note,
           status: loan.status
         }}

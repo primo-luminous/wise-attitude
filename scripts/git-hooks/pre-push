@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Pre-push hook for Wise Attitude project
+# This hook runs before pushing to ensure code is ready for deployment
+
+echo "🚀 Running pre-push checks..."
+
+# Run the pre-deploy script (includes build check)
+npm run pre-deploy
+
+# Check if the script succeeded
+if [ $? -ne 0 ]; then
+    echo "❌ Pre-push checks failed!"
+    echo "Please fix the issues above before pushing."
+    exit 1
+fi
+
+echo "✅ Pre-push checks passed! Ready for deployment."
+exit 0
