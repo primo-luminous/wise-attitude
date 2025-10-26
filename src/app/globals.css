@@ -1,0 +1,89 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+/* ---------- Base / Theme ---------- */
+@layer base {
+  :root {
+    /* Brand tokens */
+    --brand-bg: #415E72;        /* พื้นหลัง */
+    --brand-primary: #17313E;   /* สีปุ่มหลัก */
+
+    /* โทนอนุพันธ์ (ใช้ color-mix เพื่อมิติ) */
+    --brand-primary-raise: color-mix(in oklab, var(--brand-primary), white 8%);
+    --brand-primary-deep:  color-mix(in oklab, var(--brand-primary), black 10%);
+  }
+
+  html, body {
+    min-height: 100%;
+    color: #f5f7fa;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* พื้นหลังหรู: base + วงแสง + วินเยต + เส้นกริดบางๆ */
+    background:
+      radial-gradient(closest-side, rgba(255,255,255,.10), transparent 60%) -20% -20%/46rem 46rem no-repeat,
+      radial-gradient(closest-side, rgba(255,255,255,.08), transparent 60%) 120% 120%/52rem 52rem no-repeat,
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px) 0 0/40px 40px,
+      radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,.35), transparent 55%),
+      var(--brand-bg);
+    background-color: var(--brand-bg);
+  }
+
+  ::selection { @apply bg-white/20; }
+  input::placeholder, textarea::placeholder { @apply text-zinc-300; }
+}
+
+/* ---------- Reusable Components ---------- */
+@layer components {
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-white/10 px-3 py-3
+           text-white placeholder:text-zinc-300
+           focus:outline-none focus:ring-2 focus:ring-white/30;
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-primary {
+    @apply w-full rounded-2xl px-4 py-3 font-medium
+           text-white shadow-lg shadow-black/30
+           disabled:opacity-70 disabled:cursor-not-allowed
+           flex items-center justify-center gap-2;
+    background-color: var(--brand-primary);
+    background-image: linear-gradient(
+      135deg,
+      var(--brand-primary-raise) 0%,
+      var(--brand-primary) 55%,
+      var(--brand-primary-deep) 100%
+    );
+    transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .btn-primary:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+    filter: brightness(0.98);
+  }
+
+  /* ปุ่มสำหรับ "สร้าง" ทุกอย่าง ตามสไตล์ที่ผู้ใช้ระบุ */
+  .btn-create {
+    @apply text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br
+           focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800
+           font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2;
+  }
+
+  /* ปุ่มสำหรับ "แก้ไข" ทั้งหมด (แดงไล่ไปเหลือง) */
+  .btn-edit {
+    @apply text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl
+           focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400
+           font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2;
+  }
+
+  /* การ์ดกระจกใสหรู */
+  .card-glass {
+    @apply rounded-[1.5rem] border border-white/10 bg-white/5 p-8
+           shadow-2xl shadow-black/20;
+    backdrop-filter: blur(14px);
+  }
+}
